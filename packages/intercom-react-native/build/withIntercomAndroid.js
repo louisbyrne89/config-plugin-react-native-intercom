@@ -29,7 +29,7 @@ import com.intercom.reactnative.IntercomModule;
 
 public class MainNotificationService extends FirebaseMessagingService {
 
-  @Override 
+  @Override
   public void onNewToken(String refreshedToken) {
     IntercomModule.sendTokenToIntercom(getApplication(), refreshedToken);
     super.onNewToken(refreshedToken);
@@ -45,20 +45,19 @@ public class MainNotificationService extends FirebaseMessagingService {
   }
 }`;
 }
-const withIntercomAndroid = (config, { intercomEURegion, androidApiKey, appId }) => {
-    const isPushNotificationsEnabled = false;
+const withIntercomAndroid = (config, { intercomEURegion, androidApiKey, appId, isPushNotificationsEnabledAndroid = false }) => {
     config = (0, exports.withIntercomAndroidManifest)(config, {
         EURegion: intercomEURegion,
-        pushNotifications: isPushNotificationsEnabled,
+        pushNotifications: isPushNotificationsEnabledAndroid,
     });
     config = (0, exports.withIntercomAppBuildGradle)(config, {
-        pushNotifications: isPushNotificationsEnabled,
+        pushNotifications: isPushNotificationsEnabledAndroid,
     });
     config = (0, exports.withIntercomMainApplication)(config, {
         appId,
         apiKey: androidApiKey,
     });
-    if (isPushNotificationsEnabled) {
+    if (isPushNotificationsEnabledAndroid) {
         config = withIntercomMainNotificationService(config, {});
         config = withIntercomProjectBuildGradle(config, {});
     }
