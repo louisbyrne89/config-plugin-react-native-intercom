@@ -29,7 +29,7 @@ import com.intercom.reactnative.IntercomModule;
 
 public class MainNotificationService extends FirebaseMessagingService {
 
-  @Override
+  @Override 
   public void onNewToken(String refreshedToken) {
     IntercomModule.sendTokenToIntercom(getApplication(), refreshedToken);
     super.onNewToken(refreshedToken);
@@ -45,20 +45,20 @@ public class MainNotificationService extends FirebaseMessagingService {
   }
 }`;
 }
-const withIntercomAndroid = (config, { intercomEURegion, androidApiKey, appId, isPushNotificationsEnabledAndroid = false }) => {
-    const isPushNotificationsEnabledAndroid = false;
+const withIntercomAndroid = (config, { intercomEURegion, androidApiKey, appId }) => {
+    const isPushNotificationsEnabled = false;
     config = (0, exports.withIntercomAndroidManifest)(config, {
         EURegion: intercomEURegion,
-        pushNotifications: isPushNotificationsEnabledAndroid,
+        pushNotifications: isPushNotificationsEnabled,
     });
     config = (0, exports.withIntercomAppBuildGradle)(config, {
-        pushNotifications: isPushNotificationsEnabledAndroid,
+        pushNotifications: isPushNotificationsEnabled,
     });
     config = (0, exports.withIntercomMainApplication)(config, {
         appId,
         apiKey: androidApiKey,
     });
-    if (isPushNotificationsEnabledAndroid) {
+    if (isPushNotificationsEnabled) {
         config = withIntercomMainNotificationService(config, {});
         config = withIntercomProjectBuildGradle(config, {});
     }
@@ -213,9 +213,9 @@ const modifyMainApplication = ({ contents, apiKey, appId, packageName, }) => {
 async function setEURegionTrueAsync(config, androidManifest) {
     // Get the <application /> tag and assert if it doesn't exist.
     const mainApplication = getMainApplicationOrThrow(androidManifest);
-    addMetaDataItemToMainApplication(mainApplication,
+    addMetaDataItemToMainApplication(mainApplication, 
     // value for `android:name`
-    "io.intercom.android.sdk.use.eu.server",
+    "io.intercom.android.sdk.use.eu.server", 
     // value for `android:value`
     "true");
     return androidManifest;
